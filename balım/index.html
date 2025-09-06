@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="image/favicon.png" type="image/png" />
+  <title>Beni Seviyor Musun?</title>
+  <style>
+/* CSS değişkenleri tanımlanıyor: arka plan ve vurgu renkleri */
+    :root
+      {
+        --bg1:#ffe6f0;/* Açık pembe arka plan */
+        --bg2:#fff0f6;/* Daha açık pembe arka plan */
+        --accent:#ff4d94;/* Vurgu rengi, kırmızı-pembe ton */
+      }
+
+    /* Tüm elementlerde kutu boyutlamasını daha düzgün yönetmek için box-sizing ayarlanıyor */
+    *
+      {
+        box-sizing:border-box
+      }
+
+/* HTML ve body temel ayarları */
+     html,body
+      {
+        height:100%;
+        margin:0;
+        font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        overflow:hidden
+       }
+    
+    body
+      {
+        background: radial-gradient(circle at 10% 10%, var(--bg2), var(--bg1));
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:24px;
+      }
+
+    .alan
+      {
+        width:100%;
+        max-width:720px;
+        max-height: 720px;
+        background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+        border-radius:18px;
+        padding:40px 32px;
+        box-shadow:0 12px 40px rgba(0,0,0,0.12);
+        text-align:center;
+        position:relative;
+        overflow:hidden;
+      }
+
+    h1
+      {
+        font-size:32px;
+        animation: glow 2s infinite alternate;/*Yazıya parıltı efekti*/
+        margin-top: -35px;
+        color:#b3004f;
+        letter-spacing:0.4px;
+      }
+
+/*Yazıya parıltı efekti*/
+      @keyframes glow 
+        {
+          from { text-shadow: 0 0 5px #ff4d94; }
+          to   { text-shadow: 0 0 15px #ff4d94, 0 0 30px #ff80bf; }
+        }
+
+    #sayac
+      {
+        color:#b3004f;
+        font-weight:bold;
+        font-size:15px;
+        margin-top: -20px;
+      }
+
+   .carousel
+      {
+        width:100%;
+        height:600px;
+        align-items: center;
+        justify-content: center;
+        overflow:hidden;
+      }
+
+    .cerceve
+      {
+        display:flex;
+        width:100%;
+        height:100%;
+        animation:slide 15s linear infinite
+      }
+
+    .resim
+      {
+        width:100%;
+        height:90%;
+        object-fit:cover;
+        flex-shrink:0;
+        border-radius:12px;
+      }
+
+/*CSS animasyonu (keyframes) ve bir elementi yatay olarak kaydırma*/
+    @keyframes slide
+      {
+        0%{transform:translateX(0)}/*0% animasyonun başı*/
+        12.5%{transform:translateX(-100%)}
+        25%{transform:translateX(-200%)}
+        37.5%{transform:translateX(-300%)}
+        50%{transform:translateX(-400%)}
+        62.5%{transform:translateX(-500%)}
+        75%{transform:translateX(-600%)}
+        87.5%{transform:translateX(-700%)}
+        100%{transform:translateX(0)}/*100% animasyonun sonu*/
+      }
+
+    .heart 
+      {
+        position: fixed;              /* sayfa üzerinde sabit kalır */
+        bottom: 0;                    /* en alttan başlasın */
+        animation-name: floatUp;      /* aşağıdan yukarı animasyon */
+        animation-timing-function: linear;
+        color: red;                   
+        z-index: 9999;                /* her şeyin üstünde görünsün */
+      }
+
+    @keyframes floatUp 
+      {
+
+      from 
+        {
+          transform: translateY(0);   /* en aşağıdan başla */
+          opacity: 1;                 
+        }
+
+      to    
+        {
+          transform: translateY(-100vh); /* ekranın üstüne kadar çıksın */
+          opacity: 0;                  
+        }
+      }
+  </style>
+</head>
+<body>
+  <div class="alan">
+
+    <h1>Seninle 2. ayımız ama sanki 2. yılımız gibi</h1>
+
+    <div class="carousel">
+      <div class="cerceve">
+        <img class="resim" src="image/image1.jpeg"/>
+        <img class="resim" src="image/image2.jpeg"/>
+        <img class="resim" src="image/image7.jpeg"/>
+        <img class="resim" src="image/image8.jpeg"/>
+        <img class="resim" src="image/image3.jpeg"/>
+        <img class="resim" src="image/image11.jpeg"/>
+        <img class="resim" src="image/image9.jpeg"/>
+      </div>
+    </div>
+    <p id="sayac"></p>
+  </div>
+
+<script>
+// Sayac ve sayfa yönlendirme
+  let kalan = 12;
+  const sayac = document.getElementById('sayac');
+
+  const interval = setInterval(() => 
+    {
+      kalan--;
+      sayac.textContent = kalan + " saniye sonra sürpriz geliyor ❤️";
+
+  if (kalan === 0) 
+    {
+      clearInterval(interval);
+      window.location.href = "icerik.html"; // süre dolunca yönlendirme
+    }
+}, 1000);
+
+  
+
+// Arka planda sürekli kalp animasyonu üretmek için fonksiyon
+  function createHeart()
+    {
+      const heart=document.createElement('div'); // yeni div oluştur
+      heart.className='heart';                   // CSS'teki "heart" sınıfını kullanır
+      heart.textContent='❤️';                    // içeriği kalp emojisi
+      heart.style.left=Math.random()*100+'vw';   // rastgele yatay konum
+      heart.style.fontSize=(20+Math.random()*30)+'px'; // farklı boyutlarda
+      heart.style.animationDuration=(3+Math.random()*4)+'s'; // animasyon süresi rastgele
+      document.body.appendChild(heart);          // sayfaya ekle
+
+// 5 saniye sonra kalbi kaldır
+      setTimeout(()=>heart.remove(),5000);
+}
+
+// Her 0.3 saniyede bir yeni kalp oluştur
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>
